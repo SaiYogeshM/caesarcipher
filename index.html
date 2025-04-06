@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Caesar Cipher - Encrypt & Decrypt</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #4d5c6e;
+      padding: 40px;
+    }
+    h2 {
+      color: #333;
+    }
+    input, textarea, button {
+      padding: 8px;
+      margin-top: 10px;
+      width: 100%;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Caesar Cipher Tool</h2>
+
+  <label for="direction">Type 'encode' to encrypt, 'decode' to decrypt:</label>
+  <input type="text" id="direction" placeholder="encode or decode">
+
+  <label for="text">Type your message:</label>
+  <textarea id="text" rows="4" placeholder="Enter your message here..."></textarea>
+
+  <label for="shift">Type the shift number:</label>
+  <input type="number" id="shift" placeholder="e.g., 3">
+
+  <button onclick="processCipher()">Submit</button>
+
+  <div id="result"></div>
+
+  <script>
+    const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+
+    function processCipher() {
+      const direction = document.getElementById("direction").value.trim().toLowerCase();
+      const text = document.getElementById("text").value.toLowerCase();
+      const shift = parseInt(document.getElementById("shift").value);
+      let result = '';
+
+      if (!['encode', 'decode'].includes(direction) || isNaN(shift)) {
+        document.getElementById("result").innerText = "Please enter valid inputs.";
+        return;
+      }
+
+      for (let letter of text) {
+        if (alphabet.includes(letter)) {
+          const index = alphabet.indexOf(letter);
+          const shiftAmount = direction === 'encode' ? shift : -shift;
+          const newIndex = (index + shiftAmount + 26) % 26;
+          result += alphabet[newIndex];
+        } else {
+          result += letter; // keep spaces or symbols unchanged
+        }
+      }
+
+      document.getElementById("result").innerText = `The ${direction}d text is: ${result}`;
+    }
+  </script>
+
+</body>
+</html>
